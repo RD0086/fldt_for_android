@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:fitsSystemWindows="true"
+     tools:context=".LivingActivity"
+     android:orientation="vertical"
+     >
+ <Button
+     android:id="@+id/btn_ht"
+     android:layout_marginTop="40dp"
+     android:layout_marginLeft="80dp"
+     android:layout_marginRight="80dp"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:background="@drawable/button_bg"
+     android:text="活体检测"
+     android:textColor="@color/colorWhite"
+     android:textSize="16sp" />
+ <Button
+     android:id="@+id/btn_sr"
+     android:layout_marginTop="20dp"
+     android:layout_marginLeft="80dp"
+     android:layout_marginRight="80dp"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:background="@drawable/button_bg"
+     android:text="实人认证"
+     android:textColor="@color/colorWhite"
+     android:textSize="16sp" />
+ <Button
+     android:id="@+id/btn_ss"
+     android:layout_marginTop="20dp"
+     android:layout_marginLeft="80dp"
+     android:layout_marginRight="80dp"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:background="@drawable/button_bg"
+     android:text="人脸搜索"
+     android:textColor="@color/colorWhite"
+     android:textSize="16sp" />
+
+ <Button
+     android:id="@+id/btn_face_compare"
+     android:layout_marginTop="20dp"
+     android:layout_marginLeft="80dp"
+     android:layout_marginRight="80dp"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:background="@drawable/button_bg"
+     android:text="刷脸认证"
+     android:textColor="@color/colorWhite"
+     android:textSize="16sp" />
+</LinearLayout>
