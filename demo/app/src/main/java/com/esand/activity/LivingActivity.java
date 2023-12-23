@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2015-present TzuTaLin
+ *  活体检测
  */
 
 package com.esand.activity;
@@ -103,11 +103,10 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
                     JSONObject object = new JSONObject();
                     object.put("initMsg",result.getData());
                     String reqMsg = object.toJSONString();
-                    String rsp = HTTPClient.post("https://wxapp.dev.esandcloud.com/livingdetection/livingdetect/init", reqMsg); // 调用开发环境
-//                    String rsp = client.authInit(result.getData()); // 调用阿里云
+                    String rsp = client.ldtInit(result.getData()); // 调用阿里云
                     showLog("认证初始化返回数据：" + rsp);
                     Log.e("", "测试 rsp:" + rsp);
-                    if (rsp != null){
+                    if (rsp != null && rsp.length() > 1){
                         Map map = GsonUtil.getAllJson().fromJson(rsp, Map.class);
                         token = (String)map.get("token");
                         //初始化成功过 访问服务端进行初始化
@@ -128,10 +127,8 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
                                             object.put("token", result.getToken());
                                             object.put("verifyMsg",result.getData());
                                             String reqMsg = object.toJSONString();
-                                            // 一砂测试环境
-                                            String auth =  HTTPClient.post("https://wxapp.dev.esandcloud.com/livingdetection/livingdetect/verify",reqMsg);
                                             // 阿里云线上环境
-//                                            String auth = client.auth(result);
+                                            String auth = client.ldtAuth(result);
                                             showLog("auth："+auth);
                                             Log.e("", "测试 加密:" + auth);
                                         }

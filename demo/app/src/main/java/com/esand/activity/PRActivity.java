@@ -1,3 +1,6 @@
+/**
+ * 实名认证
+ */
 package com.esand.activity;
 
 import android.app.AlertDialog;
@@ -200,7 +203,7 @@ public class PRActivity extends AppCompatActivity implements View.OnClickListene
             public void run() {
                 EsLivingDetectResult result = manager.verifyInit(livingType);
                 if (EsLivingDetectErrorCode.ELD_SUCCESS == result.getCode()) {
-                    String rsp = client.RPauthInit(result.getData(),mCertName,mCertNo);
+                    String rsp = client.idInit(result.getData(),mCertName,mCertNo);
                     updateTextView("认证初始化返回数据："+rsp);
                     Log.e("", "测试 rsp:" + rsp);
                     Map map = GsonUtil.getAllJson().fromJson(rsp, Map.class);
@@ -217,7 +220,7 @@ public class PRActivity extends AppCompatActivity implements View.OnClickListene
                                 AppExecutors.getInstance().networkIO().execute(new Runnable() {
                                     @Override
                                     public void run() {
-                                        String auth = client.RPauth(result);
+                                        String auth = client.idAuth(result);
                                         updateTextView("auth："+auth);
                                         Log.e("", "测试 加密:" + auth);
                                     }

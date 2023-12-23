@@ -42,12 +42,12 @@ public class HTTPClient {
     }
 
     /**
-     * 发起认证初始化操作
+     * 活体检测初始化
      *
      * @param msg
      * @return
      */
-    public String authInit(String msg) {
+    public String ldtInit(String msg) {
         FormBody body;
         String rspStr = null;
         FormBody.Builder bodyBuilder = new FormBody.Builder()
@@ -57,27 +57,28 @@ public class HTTPClient {
     }
 
     /**
-     * 发起认证初始化操作
+     * 获取活体检测结果
      *
-     * @param msg
      * @return
      */
-    public String searchInit(String msg) {
+    public String ldtAuth(EsLivingDetectResult result) {
+        MyLog.error("输出data"+result.getData());
         FormBody body;
         String rspStr = null;
         FormBody.Builder bodyBuilder = new FormBody.Builder()
-                .add("initMsg", msg);
+                .add("token", result.getToken())
+                .add("verifyMsg", result.getData());
         body = bodyBuilder.build();
-        return post("https://searchface.market.alicloudapi.com/init", body);
+        return post("http://eface.market.alicloudapi.com/verify", body);
     }
 
     /**
-     * 发起认证初始化操作
+     * 实名认证初始化
      *
      * @param msg
      * @return
      */
-    public String RPauthInit(String msg,String certName,String certNo) {
+    public String idInit(String msg,String certName,String certNo) {
         FormBody body;
         String rspStr = null;
         FormBody.Builder bodyBuilder = new FormBody.Builder()
@@ -87,11 +88,12 @@ public class HTTPClient {
         body = bodyBuilder.build();
         return post("http://apprpv.market.alicloudapi.com/init", body);
     }
+
     /**
-     * 认证操作
+     * 获取实名认证结果
      * @return
      */
-    public String RPauth(EsLivingDetectResult result) {
+    public String idAuth(EsLivingDetectResult result) {
         MyLog.error("输出data"+result.getData());
         FormBody body;
         String rspStr = null;
@@ -118,7 +120,7 @@ public class HTTPClient {
     }
 
     /**
-     * 认证操作
+     * 获取刷脸认证结果
      * @return
      */
     public String faceCompareVerify(EsLivingDetectResult result) {
@@ -133,7 +135,22 @@ public class HTTPClient {
     }
 
     /**
-     * 认证操作
+     * 人脸搜索初始化
+     *
+     * @param msg
+     * @return
+     */
+    public String searchInit(String msg) {
+        FormBody body;
+        String rspStr = null;
+        FormBody.Builder bodyBuilder = new FormBody.Builder()
+                .add("initMsg", msg);
+        body = bodyBuilder.build();
+        return post("https://searchface.market.alicloudapi.com/init", body);
+    }
+
+    /**
+     * 获取人脸搜索结果
      *
      * @return
      */
@@ -147,21 +164,6 @@ public class HTTPClient {
                 .add("dbName",dbName);
         body = bodyBuilder.build();
         return post("https://searchface.market.alicloudapi.com/verify", body);
-    }
-    /**
-     * 认证操作
-     *
-     * @return
-     */
-    public String auth(EsLivingDetectResult result) {
-        MyLog.error("输出data"+result.getData());
-        FormBody body;
-        String rspStr = null;
-        FormBody.Builder bodyBuilder = new FormBody.Builder()
-                .add("token", result.getToken())
-                .add("verifyMsg", result.getData());
-        body = bodyBuilder.build();
-        return post("http://eface.market.alicloudapi.com/verify", body);
     }
 
     private String post(String url, FormBody body){
@@ -179,6 +181,8 @@ public class HTTPClient {
             requestBuilder.post(body);
             Request request = requestBuilder.build();
             Response response = client.newCall(request).execute();
+            // 打印 header 数据
+            MyLog.info("服务器返回header 数据 ：" + response.headers().toString());
             rspStr = response.body().string();
         }catch (Exception e){
             e.printStackTrace();
