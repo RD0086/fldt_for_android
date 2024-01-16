@@ -97,7 +97,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             public void run() {
                 MyLog.debug("livingType->>>>>"+livingType);
                 EsLDTInitConfig config = new EsLDTInitConfig(livingType);
-                config.setKeyType(EsCryptKeyType.TEST);
+                config.setKeyType(EsCryptKeyType.DEFAULT);
                 EsLivingDetectResult result = manager.verifyInit(config);
                 if (EsLivingDetectErrorCode.ELD_SUCCESS == result.getCode()) {
                     JSONObject object = new JSONObject();
