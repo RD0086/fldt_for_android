@@ -24,9 +24,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.esand.activity.utile.AppValidationMgr;
-import com.esand.activity.utile.HTTPClient;
-import com.esand.activity.utile.SaveDataUtil;
+import com.esand.activity.util.AppValidationMgr;
+import com.esand.activity.util.HTTPClient;
+import com.esand.activity.util.SaveDataUtil;
 import com.esandinfo.livingdetection.EsLivingDetectionManager;
 import com.esandinfo.livingdetection.bean.EsLivingDetectResult;
 import com.esandinfo.livingdetection.biz.EsLivingDetectCallback;

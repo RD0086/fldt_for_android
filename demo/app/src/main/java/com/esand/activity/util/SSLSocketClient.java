@@ -1,4 +1,4 @@
-package com.esand.activity.utile;
+package com.esand.activity.util;
 import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;

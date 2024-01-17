@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.esand.activity.utile.HTTPClient;
+import com.esand.activity.util.HTTPClient;
 import com.esandinfo.livingdetection.EsLivingDetectionManager;
 import com.esandinfo.livingdetection.bean.EsLivingDetectResult;
 import com.esandinfo.livingdetection.biz.EsLivingDetectCallback;

@@ -13,7 +13,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
-import com.esand.activity.utile.HTTPClient;
+import com.esand.activity.util.HTTPClient;
 import com.esandinfo.livingdetection.EsLivingDetectionManager;
 import com.esandinfo.livingdetection.bean.EsCryptKeyType;
 import com.esandinfo.livingdetection.bean.EsLDTInitConfig;

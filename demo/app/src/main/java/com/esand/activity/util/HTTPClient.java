@@ -1,4 +1,4 @@
-package com.esand.activity.utile;
+package com.esand.activity.util;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
