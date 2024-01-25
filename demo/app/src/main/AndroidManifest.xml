@@ -37,9 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data
-            android:name="FACE_APPCODE"
-            android:value="${FACE_APPCODE}" />
     </application>
 
     <uses-feature android:name="android.hardware.camera.autofocus" />

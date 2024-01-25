@@ -2,7 +2,6 @@ package com.esand.activity.util;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -25,19 +24,18 @@ import okhttp3.Response;
  * HTTP工具类
  */
 public class HTTPClient {
-    // TODO 此处需要替换成您的APPCODE (在 build.gradle文件中，appcode要放在服务器端，请妥善保管，切勿泄漏)
-    private String FACE_APPCODE;
+
+    // WARNNING！！ : 为了保护密钥，这段代码建议写在服务器端，这里为了方便演示，把密钥写客户端了。
+    // TODO 阿里云接入，请替换这里的APPCODE （为了保护APPCODE,此段代码通常放在服务器端）
+    private String APPCODE;
+    // TODO 非阿里云接入，请从管理控制台查询并替换这里的 APPCODE 和密钥, 参考文档： https://esandinfo.yuque.com/yv6e1k/aa4qsg/cdwove
+    private String E_APPCODE;// = "d2808c1338ce01f3e3efdb486f9effb9";
+    private String E_SECRET;// = "/OUmYXYo5O5CrzXQakeF789PU4RSKVdObVtCSwp28g==";
 
     public HTTPClient(Context mContext) {
         ApplicationInfo appInfo = null;
-        try {
-            appInfo = mContext.getPackageManager().getApplicationInfo(mContext.getPackageName(), PackageManager.GET_META_DATA);
-            FACE_APPCODE = appInfo.metaData.getString("FACE_APPCODE");
-            if (FACE_APPCODE == null || FACE_APPCODE.trim().equals("")) {
-                Log.i("LDT","APPCODE 为空，请在build.gradle中配置APPCODE, 如有疑问可联系微信： esand_info");
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        if (APPCODE == null && (E_APPCODE == null&&E_SECRET == null)) {
+            Log.i("LDT","如果是阿里云网关接入，请先设置 APPCODE , 如果非阿里云网关接入，请先设置 E_APPCODE, E_SECRET ， 如有疑问请联系 ：13691664797");
         }
     }
 
@@ -53,7 +51,14 @@ public class HTTPClient {
         FormBody.Builder bodyBuilder = new FormBody.Builder()
                 .add("initMsg", msg);
         body = bodyBuilder.build();
-        return post("http://eface.market.alicloudapi.com/init", body);
+        String url = null;
+        if (APPCODE != null) {
+            url = "http://eface.market.alicloudapi.com/init";
+        } else {
+            url = String.format("https://edis.esandcloud.com/gateways?APPCODE=%s&ACTION=%s",E_APPCODE, "livingdetection/livingdetect/init");
+        }
+
+        return post(url, body);
     }
 
     /**
@@ -69,7 +74,14 @@ public class HTTPClient {
                 .add("token", result.getToken())
                 .add("verifyMsg", result.getData());
         body = bodyBuilder.build();
-        return post("http://eface.market.alicloudapi.com/verify", body);
+        String url = null;
+        if (APPCODE != null) {
+            url = "http://eface.market.alicloudapi.com/verify";
+        } else {
+            url = String.format("https://edis.esandcloud.com/gateways?APPCODE=%s&ACTION=%s",E_APPCODE, "livingdetection/livingdetect/verify");
+        }
+
+        return post(url, body);
     }
 
     /**
@@ -86,7 +98,15 @@ public class HTTPClient {
                 .add("certName",certName)
                 .add("certNo",certNo);
         body = bodyBuilder.build();
-        return post("http://apprpv.market.alicloudapi.com/init", body);
+
+        String url = null;
+        if (APPCODE != null) {
+            url = "http://apprpv.market.alicloudapi.com/init";
+        } else {
+            url = String.format("https://edis.esandcloud.com/gateways?APPCODE=%s&ACTION=%s",E_APPCODE, "livingdetection/rpverify/init");
+        }
+
+        return post(url, body);
     }
 
     /**
@@ -101,7 +121,14 @@ public class HTTPClient {
                 .add("token", result.getToken())
                 .add("verifyMsg", result.getData());
         body = bodyBuilder.build();
-        return post("http://apprpv.market.alicloudapi.com/verify", body);
+        String url = null;
+        if (APPCODE != null) {
+            url = "http://apprpv.market.alicloudapi.com/verify";
+        } else {
+            url = String.format("https://edis.esandcloud.com/gateways?APPCODE=%s&ACTION=%s",E_APPCODE, "livingdetection/rpverify/verify");
+        }
+
+        return post(url, body);
     }
 
     /**
@@ -116,7 +143,14 @@ public class HTTPClient {
                 .add("initMsg", msg)
                 .add("withoutReg","true");
         body = bodyBuilder.build();
-        return post("https://efaceid.market.alicloudapi.com/init", body);
+        String url = null;
+        if (APPCODE != null) {
+            url = "https://efaceid.market.alicloudapi.com/init";
+        } else {
+            url = String.format("https://edis.esandcloud.com/gateways?APPCODE=%s&ACTION=%s",E_APPCODE, "livingdetection/faceContrast/init");
+        }
+
+        return post(url, body);
     }
 
     /**
@@ -131,7 +165,14 @@ public class HTTPClient {
                 .add("token", result.getToken())
                 .add("verifyMsg", result.getData());
         body = bodyBuilder.build();
-        return post("https://efaceid.market.alicloudapi.com/verify", body);
+        String url = null;
+        if (APPCODE != null) {
+            url = "https://efaceid.market.alicloudapi.com/verify";
+        } else {
+            url = String.format("https://edis.esandcloud.com/gateways?APPCODE=%s&ACTION=%s",E_APPCODE, "livingdetection/faceContrast/verify");
+        }
+
+        return post(url, body);
     }
 
     /**
@@ -146,7 +187,12 @@ public class HTTPClient {
         FormBody.Builder bodyBuilder = new FormBody.Builder()
                 .add("initMsg", msg);
         body = bodyBuilder.build();
-        return post("https://searchface.market.alicloudapi.com/init", body);
+        String url = null;
+        if (APPCODE != null) {
+            url = "https://searchface.market.alicloudapi.com/init";
+        }
+
+        return post(url, body);
     }
 
     /**
@@ -163,7 +209,12 @@ public class HTTPClient {
                 .add("verifyMsg", result.getData())
                 .add("dbName",dbName);
         body = bodyBuilder.build();
-        return post("https://searchface.market.alicloudapi.com/verify", body);
+        String url = null;
+        if (APPCODE != null) {
+            url = "https://searchface.market.alicloudapi.com/verify";
+        }
+
+        return post(url, body);
     }
 
     private String post(String url, FormBody body){
@@ -174,8 +225,15 @@ public class HTTPClient {
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(20, TimeUnit.SECONDS)
                     .build();
+            String appcode = null;
+            if (APPCODE != null) {
+                appcode = APPCODE;
+            } else {
+                appcode = E_SECRET;
+            }
+
             Request.Builder requestBuilder = new Request.Builder().url(url);
-            requestBuilder.addHeader("Authorization", "APPCODE " + FACE_APPCODE);
+            requestBuilder.addHeader("Authorization", "APPCODE " + appcode);
             requestBuilder.addHeader("X-Ca-Nonce", UUID.randomUUID().toString());
             requestBuilder.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             requestBuilder.post(body);
@@ -212,7 +270,6 @@ public class HTTPClient {
             return rspStr;
         }
     }
-
 
     public static Bitmap stringToBitmap(String string) {
         Bitmap bitmap = null;

@@ -1,8 +1,6 @@
 apply plugin: 'com.android.application'
-def FACE_APPCODE = ''
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
 
     defaultConfig {
         applicationId "com.esandinfo.kivingdetection"
@@ -15,12 +13,10 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [FACE_APPCODE: FACE_APPCODE]
         }
         debug {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [FACE_APPCODE: FACE_APPCODE]
         }
     }
 
@@ -47,9 +43,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation fileTree(dir: 'libs', include: ['esfaceauth-debug.aar',"opencv-release.aar"])
     implementation "com.android.support:appcompat-v7:+"
-    implementation 'com.zhy:okhttputils:2.6.2'
+    //网络请求
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.1'
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     implementation "com.alibaba:fastjson:1.2.70@jar"
-
 }
