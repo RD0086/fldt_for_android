@@ -7,31 +7,20 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
+    <TextView
+        android:id="@+id/rpvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="实名认证"
+        android:textSize="24sp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_below="@id/rpvTitle"
         android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/upload_log_btn"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/RadioGroupLayout"
-            android:layout_marginTop="55dp"
-            android:background="@drawable/button_bg"
-            android:text="上传日志"
-            android:textColor="@color/colorWhite" />
-
-        <Button
-            android:id="@+id/clear_log_btn"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/RadioGroupLayout"
-            android:layout_marginTop="100dp"
-            android:background="@drawable/button_bg"
-            android:text="清除日志"
-            android:textColor="@color/colorWhite" />
-
         <EditText
             android:id="@+id/et_cert_name"
             android:layout_width="match_parent"
@@ -39,7 +28,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:hint="姓名" />
+            android:hint="姓 名" />
         <EditText
             android:id="@+id/et_cert_no"
             android:layout_width="match_parent"
@@ -54,39 +43,80 @@
             android:id="@+id/RadioGroupLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <RadioGroup
-                android:id="@+id/livingTypeGroup"
+            <LinearLayout
+                android:id="@+id/modelSetting"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
-                <RadioButton
+                <CheckBox
+                    android:id="@+id/cbMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="全流程模式(仅支持实名认证)" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ocrSetting"
+                android:layout_below="@id/modelSetting"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                <CheckBox
+                    android:id="@+id/cbWithOCR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="支持OCR" />
+                <CheckBox
+                    android:id="@+id/cbOCRFirst"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OCR优先" />
+                <CheckBox
+                    android:id="@+id/cbIncFront"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="包括OCR国徽面" />
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/livingTypeGroup"
+                android:layout_below="@id/ocrSetting"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <CheckBox
                     android:id="@+id/btDistance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="远近" />
-                <RadioButton
+                <CheckBox
                     android:id="@+id/btBlink"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="眨眼" />
-                <RadioButton
+                <CheckBox
                     android:id="@+id/btHeadShaking"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="摇头" />
-                <RadioButton
+                <CheckBox
                     android:id="@+id/btNodding"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="点头" />
-                <RadioButton
+                <CheckBox
                     android:id="@+id/btMouthOpening"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="张嘴" />
             </RadioGroup>
+
         </RelativeLayout>
 
         <Button
@@ -94,9 +124,9 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@id/RadioGroupLayout"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/button_bg"
-            android:text="确定"
+            android:text="发起认证"
             android:textColor="@color/colorWhite" />
 
         <RelativeLayout
@@ -122,27 +152,6 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp" />
             </ScrollView>
-
-            <LinearLayout
-                android:id="@+id/LinearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_clean"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autoLink="all"
-                    android:background="@android:color/background_light"
-                    android:clickable="true"
-                    android:paddingTop="5px"
-                    android:paddingBottom="15px"
-                    android:text="clean"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
-            </LinearLayout>
         </RelativeLayout>
 
     </RelativeLayout>

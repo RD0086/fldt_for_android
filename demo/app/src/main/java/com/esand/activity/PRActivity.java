@@ -1,50 +1,38 @@
-/**
- * 实名认证
- */
 package com.esand.activity;
 
-import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.esand.activity.util.AppValidationMgr;
 import com.esand.activity.util.HTTPClient;
 import com.esand.activity.util.SaveDataUtil;
 import com.esandinfo.livingdetection.EsLivingDetectionManager;
+import com.esandinfo.livingdetection.bean.EsLDTInitConfig;
 import com.esandinfo.livingdetection.bean.EsLivingDetectResult;
 import com.esandinfo.livingdetection.biz.EsLivingDetectCallback;
 import com.esandinfo.livingdetection.constants.EsLivingDetectErrorCode;
 import com.esandinfo.livingdetection.util.AppExecutors;
 import com.esandinfo.livingdetection.util.GsonUtil;
-import com.esandinfo.livingdetection.util.MyLog;
 
 import java.util.Map;
 
+/**
+ * 实名认证 DEMO
+ */
 public class PRActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
-
     private Button mBtnConfirm;
-    private Button uploadBtn;
-    private Button clearLogBtn;
     private EditText mEtCertNo;
     private EditText mEtCertName;
-    private TextView mTvClean;
     private TextView mTvInfo;
     private String mCertName;
     private String mCertNo;
@@ -52,19 +40,24 @@ public class PRActivity extends AppCompatActivity implements View.OnClickListene
     private Handler handler;
     private final int UPDATE_TEXT_VIEW = 0;
     private HTTPClient client;
-    private RadioButton btDistance;
-    private RadioButton btBlink;
-    private RadioButton btHeadShaking;
-    private RadioButton btNodding;
-    private RadioButton btMouthOpening;
-    int livingType = 1;
+    private CheckBox btDistance;
+    private CheckBox btBlink;
+    private CheckBox btHeadShaking;
+    private CheckBox btNodding;
+    private CheckBox btMouthOpening;
+    private CheckBox cbWithOCR;
+    private CheckBox cbOCRFirst;
+    private CheckBox cbIncFront;
+    private CheckBox cbMode;
+    private int livingType = 0; // 活体类型
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pr);
         initView();
         initData();
+
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -78,10 +71,6 @@ public class PRActivity extends AppCompatActivity implements View.OnClickListene
 
 
     private void initView() {
-        uploadBtn = findViewById(R.id.upload_log_btn);
-        uploadBtn.setOnClickListener(this);
-        clearLogBtn = findViewById(R.id.clear_log_btn);
-        clearLogBtn.setOnClickListener(this);
         mBtnConfirm = findViewById(R.id.btn_confirm);
         mBtnConfirm.setOnClickListener(this);
         mEtCertName = findViewById(R.id.et_cert_name);
@@ -91,26 +80,40 @@ public class PRActivity extends AppCompatActivity implements View.OnClickListene
         mEtCertName.setText(SaveDataUtil.getCertName(this));
         mEtCertNo.setText(SaveDataUtil.getCertNo(this));
         mTvInfo = findViewById(R.id.tv_info);
-        mTvClean = findViewById(R.id.tv_clean);
-        mTvClean.setOnClickListener(this);
 
-        btDistance = (RadioButton)findViewById(R.id.btDistance);
+        btDistance = (CheckBox)findViewById(R.id.btDistance);
         btDistance.setOnClickListener(this);
-        btBlink = (RadioButton)findViewById(R.id.btBlink);
+        btBlink = (CheckBox)findViewById(R.id.btBlink);
         btBlink.setOnClickListener(this);
-        btHeadShaking = (RadioButton)findViewById(R.id.btHeadShaking);
+        btHeadShaking = (CheckBox)findViewById(R.id.btHeadShaking);
         btHeadShaking.setOnClickListener(this);
-        btNodding = (RadioButton)findViewById(R.id.btNodding);
+        btNodding = (CheckBox)findViewById(R.id.btNodding);
         btNodding.setOnClickListener(this);
-        btMouthOpening = (RadioButton)findViewById(R.id.btMouthOpening);
+        btMouthOpening = (CheckBox)findViewById(R.id.btMouthOpening);
         btMouthOpening.setOnClickListener(this);
+        cbWithOCR = (CheckBox)findViewById(R.id.cbWithOCR);
+        cbWithOCR.setOnClickListener(this);
+        cbOCRFirst = (CheckBox)findViewById(R.id.cbOCRFirst);
+        cbOCRFirst.setOnClickListener(this);
+        cbIncFront = (CheckBox)findViewById(R.id.cbIncFront);
+        cbIncFront.setOnClickListener(this);
+        cbMode = (CheckBox)findViewById(R.id.cbMode);
+        cbMode.setOnClickListener(this);
         client = new HTTPClient(PRActivity.this);
     }
+
     private void initData() {
         manager = new EsLivingDetectionManager(PRActivity.this);
+        updateComfirmButtonStatus();
+    }
+
+    /**
+     * 更新按钮状态
+     */
+    private void updateComfirmButtonStatus() {
         mCertName = mEtCertName.getText().toString();
         mCertNo = mEtCertNo.getText().toString();
-        if (mCertName!=null && AppValidationMgr.isIDCard(mCertNo)) {
+        if (mCertName!=null && AppValidationMgr.isIDCard(mCertNo) || (cbMode!=null && cbMode.isChecked())) {
             mBtnConfirm.setEnabled(true);
             mBtnConfirm.setBackground(getResources().getDrawable(R.drawable.button_bg));
         } else {
@@ -133,84 +136,42 @@ public class PRActivity extends AppCompatActivity implements View.OnClickListene
             initData();
             SaveDataUtil.saveCertNo(PRActivity.this, mCertNo);
             SaveDataUtil.saveCertName(PRActivity.this, mCertName);
+            livingType = 0;
+            livingType = btDistance.isChecked()?livingType*10+1:livingType;
+            livingType = btBlink.isChecked()?livingType*10+2:livingType;
+            livingType = btHeadShaking.isChecked()?livingType*10+3:livingType;
+            livingType = btNodding.isChecked()?livingType*10+4:livingType;
+            livingType = btMouthOpening.isChecked()?livingType*10+5:livingType;
             //开始校验
             auth();
         }
 
-        if(view.getId() == uploadBtn.getId()){
-            final Context _this=this;
-            AppExecutors.getInstance().networkIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    final String logId = MyLog.uploadLogFile();
-                    Looper.prepare();
-                    AlertDialog.Builder builder = new AlertDialog.Builder(_this);
-                    //    设置Title的内容
-                    builder.setTitle("上传日志成功");
-                    //    设置Content来显示一个信息
-                    builder.setMessage("您的日志id为:"+logId);
-                    builder.setPositiveButton("复制id", new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
-                            ClipboardManager mClipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                            //剪切板Data对象
-                            ClipData mClipData = ClipData.newPlainText("Simple test", logId);
-                            //把clip对象放在剪贴板中
-                            mClipboardManager.setPrimaryClip(mClipData);
-                        }
-                    });
-                    //    设置一个PositiveButton
-                    builder.setNegativeButton("确定", null);
-                    builder.create();
-                    builder.show();
-                    Looper.loop();
-                }
-            });
-        }
-
-        if(view.getId() == clearLogBtn.getId()){
-            MyLog.clearLog();
-        }
-
-        if (view.getId() == mTvClean.getId()) {
-            mTvInfo.setText("");
-        }
-        if (btDistance.getId() == view.getId()) {
-            livingType = 1;
-        }
-
-        if (btBlink.getId() == view.getId()) {
-            livingType = 2;
-        }
-
-        if (btHeadShaking.getId() == view.getId()) {
-            livingType = 3;
-        }
-
-        if (btNodding.getId() == view.getId()) {
-            livingType = 4;
-        }
-        if (btMouthOpening.getId() == view.getId()) {
-            livingType = 5;
-        }
+        updateComfirmButtonStatus();
     }
 
     private void auth() {
         AppExecutors.getInstance().networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                EsLivingDetectResult result = manager.verifyInit(livingType);
+                EsLDTInitConfig config = new EsLDTInitConfig(livingType);
+                //config.setLivingType(livingType);
+                config.withOCR = cbWithOCR.isChecked();// OCR 版本
+                config.ocrFirst = cbOCRFirst.isChecked(); // OCR 优先
+                config.ocrIncFront = cbIncFront.isChecked(); // 是否包括身份证背面
+                if (cbMode.isChecked()) {
+                    config.mode = 1; // 是否包括身份证背面
+                }
+
+                EsLivingDetectResult result = manager.verifyInit(config);
                 if (EsLivingDetectErrorCode.ELD_SUCCESS == result.getCode()) {
                     String rsp = client.idInit(result.getData(),mCertName,mCertNo);
                     updateTextView("认证初始化返回数据："+rsp);
-                    Log.e("", "测试 rsp:" + rsp);
                     Map map = GsonUtil.getAllJson().fromJson(rsp, Map.class);
                     String token="";
                     if(map.get("token")!=null){
                         token=(String)map.get("token");
                     }
+
                     //初始化成功过 访问服务端进行初始化
                     manager.startLivingDetect(token, new EsLivingDetectCallback() {
                         @Override
@@ -221,8 +182,7 @@ public class PRActivity extends AppCompatActivity implements View.OnClickListene
                                     @Override
                                     public void run() {
                                         String auth = client.idAuth(result);
-                                        updateTextView("auth："+auth);
-                                        Log.e("", "测试 加密:" + auth);
+                                        updateTextView("实名认证结果："+auth);
                                     }
                                 });
                             } else {
@@ -241,21 +201,17 @@ public class PRActivity extends AppCompatActivity implements View.OnClickListene
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
+
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (mEtCertName!=null && AppValidationMgr.isIDCard(mEtCertNo.getText().toString())) {
-            mBtnConfirm.setEnabled(true);
-            mBtnConfirm.setBackground(getResources().getDrawable(R.drawable.button_bg));
-        } else {
-            mBtnConfirm.setEnabled(false);
-            mBtnConfirm.setBackground(getResources().getDrawable(R.drawable.button_unselect_bg));
-        }
+        updateComfirmButtonStatus();
     }
 
     @Override
     public void afterTextChanged(Editable s) {
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -267,6 +223,4 @@ public class PRActivity extends AppCompatActivity implements View.OnClickListene
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
