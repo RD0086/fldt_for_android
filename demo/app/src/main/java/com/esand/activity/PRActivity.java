@@ -153,7 +153,7 @@ public class PRActivity extends AppCompatActivity implements View.OnClickListene
         AppExecutors.getInstance().networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                // 认证配置
+//                // 认证配置
                 EsLDTInitConfig config = new EsLDTInitConfig(livingType);
                 //config.setLivingType(livingType);
                 config.withOCR = cbWithOCR.isChecked();// 是否包含身份证OCR
@@ -168,7 +168,13 @@ public class PRActivity extends AppCompatActivity implements View.OnClickListene
                     config.mode = 1;
                 }
 
+//                EsLDTInitConfig config = new EsLDTInitConfig(1);
+//                    config.withOCR = true;// OCR 版本
+//                    config.ocrFirst = false; // OCR 优先
+//                    config.ocrIncFront = true; // 是否包括身份证背面
+//                    config.mode = 1; // 是否包括身份证背面
                 EsLivingDetectResult result = manager.verifyInit(config);
+
                 if (EsLivingDetectErrorCode.ELD_SUCCESS == result.getCode()) {
                     String rsp = client.idInit(result.getData(),mCertName,mCertNo);
                     updateTextView("认证初始化返回数据："+rsp);

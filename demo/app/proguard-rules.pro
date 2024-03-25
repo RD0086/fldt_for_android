@@ -43,6 +43,9 @@
 -keep class com.esandinfo.livingdetection.util.GsonUtil {*;}
 -keep class com.esandinfo.livingdetection.util.StringUtil {*;}
 -keep class com.esandinfo.livingdetection.util.HTTPClient {*;}
+-keep class com.esandinfo.livingdetection.activity.** {*;}
+-keep class com.esandinfo.ocr.lib.**.** {*;}
+-keep class com.esandinfo.ocr.lib.** {*;}
 
 # 保留uni-app插件库
 -keep class com.taobao.weex.** {*;}
