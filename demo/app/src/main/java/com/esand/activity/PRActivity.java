@@ -153,13 +153,19 @@ public class PRActivity extends AppCompatActivity implements View.OnClickListene
         AppExecutors.getInstance().networkIO().execute(new Runnable() {
             @Override
             public void run() {
+                // 认证配置
                 EsLDTInitConfig config = new EsLDTInitConfig(livingType);
                 //config.setLivingType(livingType);
-                config.withOCR = cbWithOCR.isChecked();// OCR 版本
+                config.withOCR = cbWithOCR.isChecked();// 是否包含身份证OCR
                 config.ocrFirst = cbOCRFirst.isChecked(); // OCR 优先
                 config.ocrIncFront = cbIncFront.isChecked(); // 是否包括身份证背面
                 if (cbMode.isChecked()) {
-                    config.mode = 1; // 是否包括身份证背面
+                    /**
+                     * 业务模式
+                     *     0 ： 仅活体
+                     *     1 ： 全流程，除活体外还支持其他交互页面 (当前仅支持实名认证交互界面)
+                     */
+                    config.mode = 1;
                 }
 
                 EsLivingDetectResult result = manager.verifyInit(config);
