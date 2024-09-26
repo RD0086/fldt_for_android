@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: '../../libs', include: ['esfaceauth-debug.aar'])
+    implementation fileTree(dir: '../../libs', include: ['esfaceauth-release.aar'])
     implementation "com.android.support:appcompat-v7:+"
     //网络请求
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.1'
