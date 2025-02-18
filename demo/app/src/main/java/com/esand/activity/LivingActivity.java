@@ -5,7 +5,7 @@
 package com.esand.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +43,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
     private CheckBox btWeakHeadShaking;
     private CheckBox btWeakNodding;
     private CheckBox btWeakColors;
+    private CheckBox btSilence;
     private int livingType = 0; // 活体类型
     private String token;
 
@@ -81,6 +82,8 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         btMouthOpening.setOnClickListener(this);
         btWeakColors = (CheckBox)findViewById(R.id.btWeakColors);
         btWeakColors.setOnClickListener(this);
+        btSilence = (CheckBox)findViewById(R.id.btSilence);
+        btSilence.setOnClickListener(this);
 //        btWeakDistance = (CheckBox)findViewById(R.id.btWeakDistance);
 //        btWeakDistance.setOnClickListener(this);
 //        btWeakHeadShaking = (CheckBox)findViewById(R.id.btWeakHeadShaking);
@@ -160,6 +163,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             livingType = btNodding.isChecked()?livingType*10+4:livingType;
             livingType = btMouthOpening.isChecked()?livingType*10+5:livingType;
             livingType = btWeakColors.isChecked()?livingType*10+6:livingType;
+            livingType = btSilence.isChecked()?livingType*10+7:livingType;
 //            livingType = btWeakDistance.isChecked()?livingType*10+7:livingType;
 //            livingType = btWeakHeadShaking.isChecked()?livingType*10+8:livingType;
 //            livingType = btWeakNodding.isChecked()?livingType*10+9:livingType;

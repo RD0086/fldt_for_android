@@ -3,8 +3,8 @@ package com.esand.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +35,7 @@ public class FaceCompareActivity extends AppCompatActivity implements View.OnCli
     private RadioButton btHeadShaking;
     private RadioButton btNodding;
     private RadioButton btMouthOpening;
+    private RadioButton btSilence;
     int livingType = 1;
 
     @Override
@@ -72,6 +73,8 @@ public class FaceCompareActivity extends AppCompatActivity implements View.OnCli
         btNodding.setOnClickListener(this);
         btMouthOpening = (RadioButton)findViewById(R.id.btMouthOpening);
         btMouthOpening.setOnClickListener(this);
+        btSilence = (RadioButton)findViewById(R.id.btSilence);
+        btSilence.setOnClickListener(this);
         client = new HTTPClient(FaceCompareActivity.this);
     }
     private void initData() {
@@ -116,6 +119,10 @@ public class FaceCompareActivity extends AppCompatActivity implements View.OnCli
 
         if (btMouthOpening.getId() == view.getId()) {
             livingType = 5;
+        }
+
+        if (btSilence.getId() == view.getId()) {
+            livingType = 7;
         }
     }
 
