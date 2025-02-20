@@ -35,7 +35,6 @@ public class FaceCompareActivity extends AppCompatActivity implements View.OnCli
     private RadioButton btHeadShaking;
     private RadioButton btNodding;
     private RadioButton btMouthOpening;
-    private RadioButton btSilence;
     int livingType = 1;
 
     @Override
@@ -73,8 +72,6 @@ public class FaceCompareActivity extends AppCompatActivity implements View.OnCli
         btNodding.setOnClickListener(this);
         btMouthOpening = (RadioButton)findViewById(R.id.btMouthOpening);
         btMouthOpening.setOnClickListener(this);
-        btSilence = (RadioButton)findViewById(R.id.btSilence);
-        btSilence.setOnClickListener(this);
         client = new HTTPClient(FaceCompareActivity.this);
     }
     private void initData() {
@@ -121,9 +118,7 @@ public class FaceCompareActivity extends AppCompatActivity implements View.OnCli
             livingType = 5;
         }
 
-        if (btSilence.getId() == view.getId()) {
-            livingType = 7;
-        }
+
     }
 
     private void auth() {

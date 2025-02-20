@@ -163,7 +163,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             livingType = btNodding.isChecked()?livingType*10+4:livingType;
             livingType = btMouthOpening.isChecked()?livingType*10+5:livingType;
             livingType = btWeakColors.isChecked()?livingType*10+6:livingType;
-            livingType = btSilence.isChecked()?livingType*10+7:livingType;
+            livingType = btSilence.isChecked()?livingType*10+8:livingType;
 //            livingType = btWeakDistance.isChecked()?livingType*10+7:livingType;
 //            livingType = btWeakHeadShaking.isChecked()?livingType*10+8:livingType;
 //            livingType = btWeakNodding.isChecked()?livingType*10+9:livingType;
