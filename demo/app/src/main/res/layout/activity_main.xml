@@ -61,29 +61,6 @@
                     android:checked="true"
                     android:text="炫彩活体" />
 
-                <CheckBox
-                    android:id="@+id/btSilence"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="静默活体" />
-
-                <!--                <CheckBox-->
-                <!--                    android:id="@+id/btWeakDistance"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:text="w远近" />-->
-
-                <!--                <CheckBox-->
-                <!--                    android:id="@+id/btWeakHeadShaking"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="match_parent"-->
-                <!--                    android:text="w摇头" />-->
-
-                <!--                <CheckBox-->
-                <!--                    android:id="@+id/btWeakNodding"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="match_parent"-->
-                <!--                    android:text="w点头" />-->
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>

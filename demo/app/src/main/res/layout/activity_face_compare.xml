@@ -13,39 +13,52 @@
         android:layout_width="match_parent"
         android:gravity="center"
         android:layout_height="wrap_content">
+        <HorizontalScrollView
+            android:id="@+id/huadong"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
         <RadioGroup
             android:id="@+id/livingTypeGroup"
             android:layout_width="wrap_content"
-            android:layout_marginTop="40dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
             <RadioButton
                 android:id="@+id/btDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="远近" />
+
             <RadioButton
                 android:id="@+id/btBlink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="眨眼" />
+
             <RadioButton
                 android:id="@+id/btHeadShaking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="摇头" />
+
             <RadioButton
                 android:id="@+id/btNodding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="点头" />
+
             <RadioButton
                 android:id="@+id/btMouthOpening"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="张嘴" />
+
         </RadioGroup>
+        </HorizontalScrollView>
     </RelativeLayout>
 
     <Button
@@ -61,10 +74,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="385dp"
-        android:layout_below="@id/btn_confirm"
+        android:layout_below="@id/btn_face_compare"
         android:layout_alignParentStart="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="99dp">
+        android:layout_marginTop="99dp"
+        tools:ignore="NotSibling">
 
         <ScrollView
             android:id="@+id/scrollView"

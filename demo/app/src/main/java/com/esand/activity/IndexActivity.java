@@ -13,7 +13,6 @@ import android.widget.Button;
 
 public class IndexActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btn_sr;
     private Button btn_ht;
     private Button btn_ss;
     private Button btn_face_compare;
@@ -25,11 +24,9 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initView() {
-        btn_sr = findViewById(R.id.btn_sr);
         btn_ht = findViewById(R.id.btn_ht);
         btn_ss = findViewById(R.id.btn_ss);
         btn_face_compare = findViewById(R.id.btn_face_compare);
-        btn_sr.setOnClickListener(this);
         btn_ht.setOnClickListener(this);
         btn_ss.setOnClickListener(this);
         btn_face_compare.setOnClickListener(this);
@@ -39,10 +36,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()){
-            case R.id.btn_sr:
-                //跳转到实人认证
-                intent = new Intent(IndexActivity.this, PRActivity.class);
-                break;
             case R.id.btn_ht:
                 intent = new Intent(IndexActivity.this, LivingActivity.class);
                 break;

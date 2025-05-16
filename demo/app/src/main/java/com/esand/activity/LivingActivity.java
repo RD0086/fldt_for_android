@@ -43,7 +43,6 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
     private CheckBox btWeakHeadShaking;
     private CheckBox btWeakNodding;
     private CheckBox btWeakColors;
-    private CheckBox btSilence;
     private int livingType = 0; // 活体类型
     private String token;
 
@@ -54,12 +53,6 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         // 初始化函数。建议提前加载 在application 提前调用, 提升性能
         EsLivingDetectionManager.Init();
         EsLivingDetectionManager.LivingViewStyleInstance().setTextColor("#3322ff").setProgressBgColor("#ffaa11").setProgressStaGradient("#22dd11");
-//        EsLivingDetectionManager.LivingViewStyleInstance().
-//                setBackGroundColor("#112233").
-//                setCircleBackWidth(10).
-//                setProgressBgColor("#4422df").
-//                setProgressStaGradient("#00ff00").
-//                setProgressEndGradient("#ff00ff").setBackGroundColor("#ffaa22");
         client = new HTTPClient(LivingActivity.this);
         manager = new EsLivingDetectionManager(LivingActivity.this);
         tv_info = (TextView) findViewById(R.id.tv_info);
@@ -82,14 +75,6 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         btMouthOpening.setOnClickListener(this);
         btWeakColors = (CheckBox)findViewById(R.id.btWeakColors);
         btWeakColors.setOnClickListener(this);
-        btSilence = (CheckBox)findViewById(R.id.btSilence);
-        btSilence.setOnClickListener(this);
-//        btWeakDistance = (CheckBox)findViewById(R.id.btWeakDistance);
-//        btWeakDistance.setOnClickListener(this);
-//        btWeakHeadShaking = (CheckBox)findViewById(R.id.btWeakHeadShaking);
-//        btWeakHeadShaking.setOnClickListener(this);
-//        btWeakNodding = (CheckBox)findViewById(R.id.btWeakNodding);
-//        btWeakNodding.setOnClickListener(this);
     }
 
     protected void startLivingDetect() {
@@ -163,10 +148,6 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             livingType = btNodding.isChecked()?livingType*10+4:livingType;
             livingType = btMouthOpening.isChecked()?livingType*10+5:livingType;
             livingType = btWeakColors.isChecked()?livingType*10+6:livingType;
-            livingType = btSilence.isChecked()?livingType*10+8:livingType;
-//            livingType = btWeakDistance.isChecked()?livingType*10+7:livingType;
-//            livingType = btWeakHeadShaking.isChecked()?livingType*10+8:livingType;
-//            livingType = btWeakNodding.isChecked()?livingType*10+9:livingType;
             startLivingDetect();
 //            cs();
         }
