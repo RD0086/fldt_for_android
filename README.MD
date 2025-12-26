@@ -7,6 +7,8 @@ Android/IOS活体检测 (眨眼，摇头，点头，张嘴，远近，炫彩)，
 
 
 - H5 体验DEMO链接 ： https://dev.esandcloud.com/h5demo/esand/living
+- SDK API 参考文档：https://edis.esandcloud.com/doc/fldt/android/index.html#overview.html
+ 
 
 ### 参考文档
 - 接入参考文档, 如下（按功能分）：
